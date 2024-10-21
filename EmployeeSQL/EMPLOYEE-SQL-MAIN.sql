@@ -1,8 +1,10 @@
 -- Create Table for Departments
-CREATE TABLE departments(
-    dept_no VARCHAR(10) PRIMARY KEY, 
-    dept_name VARCHAR(100)
+CREATE TABLE departments (
+    dept_no VARCHAR   NOT NULL,
+    dept_name VARCHAR   NOT NULL,
+    PRIMARY KEY (dept_no)
 );
+ select * from  departments;
 
 -- Create Table for Employees
 CREATE TABLE employees(
@@ -14,36 +16,46 @@ CREATE TABLE employees(
     sex VARCHAR(10), 
     hire_date DATE
 );
+ select * from  employees;
+ 
 
 -- Create Table for Department Employees
 CREATE TABLE dept_emp(
-    emp_no INT, 
-    dept_no VARCHAR(10),
+    emp_no INT NOT NULL, 
+    dept_no VARCHAR(10) NOT NULL,
     FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
-    FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+    FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
+	PRIMARY KEY (emp_no,dept_no)
 );
+
+ select * from  dept_emp;
 
 -- Create Table for Department Managers
 CREATE TABLE dept_manager(
-    dept_no VARCHAR(10),
-    emp_no INT,
+    dept_no VARCHAR(10) NOT NULL,
+    emp_no INT NOT NULL,
     FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
-    FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+	PRIMARY KEY (emp_no,dept_no)
 );
-
+ select * from  dept_manager;
 
 -- Create Table for Salaries
 CREATE TABLE salaries(
     emp_no INT, 
     salary INT,
-    FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+	PRIMARY KEY (emp_no)
 );
-
+ select * from salaries;
+ 
 -- Create Table for Titles
 CREATE TABLE titles(
     title_id VARCHAR(10) PRIMARY KEY, 
     title VARCHAR(100)
 );
+   select * from titles;
+
    
 --1.List the employee number, last name, first name, sex, and salary of each employee.
 select e.emp_no, em.last_name, em.first_name, em.sex, s.salary
@@ -62,7 +74,6 @@ inner join dept_manager as m on d.dept_no=m.dept_no
 inner join employees as em on m.emp_no=em.emp_no;
 
 --4.List the department number for each employee along with that employee’s employee number, last name, first name, and department name.
-select * from employees;
 select em.emp_no,m.dept_no, em.last_name, em.first_name, d.dept_name
 from employees as em
 join dept_emp as m  on m.emp_no = em.emp_no
