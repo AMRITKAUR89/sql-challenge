@@ -15,7 +15,11 @@ CREATE TABLE employees(
     last_name VARCHAR(50), 
     sex VARCHAR(10), 
     hire_date DATE
+
 );
+Alter Table employees
+add 	Foreign Key (emp_title_id) References titles(title_id);
+
  select * from  employees;
  
 
@@ -58,9 +62,9 @@ CREATE TABLE titles(
 
    
 --1.List the employee number, last name, first name, sex, and salary of each employee.
-select e.emp_no, em.last_name, em.first_name, em.sex, s.salary
-from dept_emp as e 
-inner join employees as em on e.emp_no = em.emp_no 
+select e.emp_no, e.last_name, e.first_name, e.sex, s.salary
+from employees as e 
+inner join dept_emp as em on e.emp_no = em.emp_no 
 inner join salaries as s on e.emp_no = s.emp_no;
 
 --2.List the first name, last name, and hire date for the employees who were hired in 1986.
